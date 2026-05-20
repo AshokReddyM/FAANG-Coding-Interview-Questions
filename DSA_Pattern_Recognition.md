@@ -1,31 +1,67 @@
-# DSA Pattern Recognition Master Document
+# DSA Pattern Recognition Complete Guide
 ## Covers ~90% Coding Interview Problems
+
+---
+
+# MASTER DSA PATTERN TABLE
+
+| Pattern | Main DS/Algo | When to Use | Example Question | Small Example | Answer |
+|---|---|---|---|---|---|
+| Frequency Counting | HashMap | Count occurrences | Top K Frequent Elements | `[1,1,2,3,3,3]` | `1→2, 2→1, 3→3` |
+| Fast Lookup | HashSet | Check duplicates quickly | Contains Duplicate | `[1,2,3,1]` | `true` |
+| Two Pointer | Two Indexes | Sorted arrays/pairs | Two Sum II | `[1,2,3,4,6], target=10` | `[4,6]` |
+| Sliding Window | Window Expansion | Continuous subarray/substring | Longest Unique Substring | `"abcabcbb"` | `3 ("abc")` |
+| Binary Search | Divide Search Space | Sorted search | Search Insert Position | `[1,3,5,7,9], target=7` | `index=3` |
+| Stack | LIFO | Brackets/next greater | Valid Parentheses | `"(()())"` | `true` |
+| Heap / PriorityQueue | Min/Max Heap | Top K problems | Kth Largest Element | `[3,2,1,5,6,4], k=2` | `5` |
+| BFS | Queue | Level order/shortest path | Binary Tree Level Order | `1→2→3` | `1 2 3` |
+| DFS / Backtracking | Recursion | All combinations | Subsets | `[1,2]` | `[],[1],[2],[1,2]` |
+| Dynamic Programming | Memoization | Repeated calculations | Climbing Stairs | `n=5` | `8 ways` |
+| Greedy | Local Best Choice | Best immediate decision | Jump Game | `[2,3,1,1,4]` | `true` |
+| Graph | BFS/DFS | Connections/networks | Number of Islands | `grid` | `3 islands` |
+| Trie | Prefix Tree | Prefix search | Implement Trie | `apple, app` | `prefix=ap` |
+| Union Find | Disjoint Set | Connected components | Redundant Connection | `1-2,2-3,3-1` | `cycle found` |
+| Prefix Sum | Running Sum | Range sum queries | Subarray Sum Equals K | `[1,2,3]` | `sum quickly` |
+| Monotonic Stack | Increasing Stack | Next greater element | Daily Temperatures | `[73,74,75]` | `[1,1,0]` |
+| Interval Problems | Sorting + Merge | Overlapping intervals | Merge Intervals | `[[1,3],[2,6]]` | `[[1,6]]` |
+| Matrix Traversal | DFS/BFS | Grid movement | Word Search | `board[][]` | `path exists` |
+| Bit Manipulation | XOR/AND | Binary tricks | Single Number | `[2,2,1]` | `1` |
+| Linked List | Pointer Manipulation | Node traversal | Reverse Linked List | `1→2→3` | `3→2→1` |
+
+---
+
+# QUICK RECOGNITION CHEAT SHEET
+
+| If Question Says... | Think... |
+|---|---|
+| frequency/count | HashMap |
+| duplicate/seen before | HashSet |
+| pair in sorted array | Two Pointer |
+| substring/subarray | Sliding Window |
+| sorted search | Binary Search |
+| top k/kth largest | Heap |
+| brackets/undo | Stack |
+| shortest path | BFS |
+| all combinations | Backtracking |
+| optimal/max/min | DP |
+| network/connections | Graph |
+| autocomplete/prefix | Trie |
+| overlapping intervals | Merge Intervals |
 
 ---
 
 # 1. Frequency Counting Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | HashMap |
-| Used For | Counting frequency |
-| Keywords | count, frequency, duplicate, anagram |
-
----
+## Main DS
+`HashMap`
 
 ## Example Question
+Top K Frequent Elements
 
-### Top K Frequent Elements
-
-Given:
 ```java
 nums = [1,1,1,2,2,3]
 k = 2
 ```
-
-Return top 2 frequent elements.
-
----
 
 ## Thinking
 
@@ -42,14 +78,6 @@ Count:
 3 -> 1
 ```
 
-Top 2:
-
-```text
-[1,2]
-```
-
----
-
 ## Answer
 
 ```java
@@ -64,25 +92,15 @@ for(int num : nums){
 
 # 2. Fast Lookup Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | HashSet |
-| Used For | Fast contains check |
-| Keywords | duplicate, seen before |
-
----
+## Main DS
+`HashSet`
 
 ## Example Question
-
-### Contains Duplicate
+Contains Duplicate
 
 ```java
 nums = [1,2,3,1]
 ```
-
-Return true if duplicate exists.
-
----
 
 ## Thinking
 
@@ -90,22 +108,6 @@ Return true if duplicate exists.
 Need fast lookup
 → HashSet
 ```
-
-Process:
-
-```text
-1 added
-2 added
-3 added
-1 already exists
-```
-
-Answer:
-```text
-true
-```
-
----
 
 ## Answer
 
@@ -128,24 +130,16 @@ return false;
 
 # 3. Two Pointer Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | Two Pointers |
-| Used For | Sorted arrays |
-| Keywords | pair sum, palindrome |
-
----
+## Main DS
+`Two Pointers`
 
 ## Example Question
-
-### Two Sum II
+Two Sum II
 
 ```java
 numbers = [1,2,3,4,6]
 target = 10
 ```
-
----
 
 ## Thinking
 
@@ -153,19 +147,9 @@ target = 10
 1 + 6 = 7
 move left
 
-2 + 6 = 8
-move left
-
 4 + 6 = 10
 found
 ```
-
-Answer:
-```text
-[4,6]
-```
-
----
 
 ## Answer
 
@@ -193,41 +177,23 @@ while(left < right){
 
 # 4. Sliding Window Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | Sliding Window |
-| Used For | Continuous range |
-| Keywords | substring, subarray |
-
----
+## Main DS
+`Sliding Window`
 
 ## Example Question
-
-### Longest Substring Without Repeating Characters
+Longest Substring Without Repeating Characters
 
 ```java
 "abcabcbb"
 ```
 
----
-
 ## Thinking
-
-Window:
 
 ```text
 abc ✓
 abca ✗
 remove a
-bca ✓
 ```
-
-Longest:
-```text
-3
-```
-
----
 
 ## Answer
 
@@ -254,40 +220,16 @@ for(int right = 0; right < s.length(); right++){
 
 # 5. Binary Search Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | Binary Search |
-| Used For | Sorted arrays |
-| Keywords | search, sorted |
-
----
+## Main DS
+`Binary Search`
 
 ## Example Question
-
-### Search Insert Position
+Search Insert Position
 
 ```java
 nums = [1,3,5,7,9]
 target = 7
 ```
-
----
-
-## Thinking
-
-```text
-mid = 5
-7 > 5
-
-search right
-```
-
-Found:
-```text
-index = 3
-```
-
----
 
 ## Answer
 
@@ -315,41 +257,15 @@ while(left <= right){
 
 # 6. Stack Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | Stack |
-| Used For | Latest item first |
-| Keywords | brackets, next greater |
-
----
+## Main DS
+`Stack`
 
 ## Example Question
-
-### Valid Parentheses
+Valid Parentheses
 
 ```java
 "(()())"
 ```
-
----
-
-## Thinking
-
-```text
-( push
-( push
-) pop
-( push
-) pop
-) pop
-```
-
-Valid:
-```text
-true
-```
-
----
 
 ## Answer
 
@@ -377,41 +293,16 @@ return stack.isEmpty();
 
 # 7. Heap / PriorityQueue Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | PriorityQueue |
-| Used For | Top K |
-| Keywords | kth largest, top k |
-
----
+## Main DS
+`PriorityQueue`
 
 ## Example Question
-
-### Kth Largest Element
+Kth Largest Element
 
 ```java
 nums = [3,2,1,5,6,4]
 k = 2
 ```
-
----
-
-## Thinking
-
-Keep only 2 largest.
-
-Heap:
-
-```text
-[5,6]
-```
-
-Answer:
-```text
-5
-```
-
----
 
 ## Answer
 
@@ -434,40 +325,11 @@ return heap.peek();
 
 # 8. BFS Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | Queue |
-| Used For | Level order |
-| Keywords | shortest path |
-
----
+## Main DS
+`Queue`
 
 ## Example Question
-
-### Binary Tree Level Order Traversal
-
-```text
-    1
-   / \
-  2   3
-```
-
----
-
-## Thinking
-
-```text
-Visit level by level
-```
-
-Output:
-
-```text
-1
-2 3
-```
-
----
+Binary Tree Level Order Traversal
 
 ## Answer
 
@@ -496,36 +358,15 @@ while(!queue.isEmpty()){
 
 # 9. DFS / Backtracking Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | Recursion |
-| Used For | All combinations |
-| Keywords | subsets, permutations |
-
----
+## Main DS
+`Recursion`
 
 ## Example Question
-
-### Generate Subsets
+Subsets
 
 ```java
 nums = [1,2]
 ```
-
----
-
-## Thinking
-
-```text
-[]
-[1]
-[2]
-[1,2]
-```
-
-Try all possibilities.
-
----
 
 ## Answer
 
@@ -549,38 +390,15 @@ void backtrack(List<Integer> temp, int start){
 
 # 10. Dynamic Programming Pattern
 
-| Topic | Details |
-|---|---|
-| Main DS | DP Array |
-| Used For | Optimization |
-| Keywords | maximum, minimum |
-
----
+## Main DS
+`DP Array`
 
 ## Example Question
+Climbing Stairs
 
-### Climbing Stairs
-
-```text
+```java
 n = 5
 ```
-
----
-
-## Thinking
-
-```text
-f(n)=f(n-1)+f(n-2)
-```
-
-Reuse previous answers.
-
-Answer:
-```text
-8
-```
-
----
 
 ## Answer
 
@@ -599,183 +417,6 @@ return dp[n];
 
 ---
 
-# 11. Greedy Pattern
-
-| Topic | Details |
-|---|---|
-| Main DS | Greedy |
-| Used For | Best immediate choice |
-| Keywords | minimum jumps |
-
----
-
-## Example Question
-
-### Jump Game
-
-```java
-[2,3,1,1,4]
-```
-
----
-
-## Thinking
-
-```text
-Keep farthest reachable index
-```
-
-Answer:
-```text
-true
-```
-
----
-
-## Answer
-
-```java
-int reach = 0;
-
-for(int i=0; i<nums.length; i++){
-
-    if(i > reach){
-        return false;
-    }
-
-    reach = Math.max(reach, i + nums[i]);
-}
-
-return true;
-```
-
----
-
-# 12. Graph Pattern
-
-| Topic | Details |
-|---|---|
-| Main DS | Graph |
-| Used For | Connections |
-| Keywords | routes, dependencies |
-
----
-
-## Example Question
-
-### Number of Islands
-
-Grid:
-
-```text
-1 1 0
-0 1 0
-1 0 1
-```
-
----
-
-## Thinking
-
-```text
-Connected land
-→ DFS/BFS
-```
-
-Answer:
-```text
-3 islands
-```
-
----
-
-## Answer
-
-```java
-void dfs(int r, int c){
-
-    if(r<0 || c<0 || r>=rows || c>=cols || grid[r][c]=='0'){
-        return;
-    }
-
-    grid[r][c] = '0';
-
-    dfs(r+1,c);
-    dfs(r-1,c);
-    dfs(r,c+1);
-    dfs(r,c-1);
-}
-```
-
----
-
-# 13. Trie Pattern
-
-| Topic | Details |
-|---|---|
-| Main DS | Trie |
-| Used For | Prefix search |
-| Keywords | autocomplete |
-
----
-
-## Example Question
-
-Words:
-
-```text
-apple
-app
-ape
-```
-
-Search:
-```text
-ap
-```
-
----
-
-## Thinking
-
-```text
-Character by character traversal
-```
-
----
-
-## Answer
-
-```java
-class TrieNode{
-
-    TrieNode[] children = new TrieNode[26];
-
-    boolean isWord;
-}
-```
-
----
-
-# MASTER PATTERN RECOGNITION TABLE
-
-| Keyword | Pattern |
-|---|---|
-| frequency | HashMap |
-| duplicate | HashSet |
-| pair sum sorted | Two Pointer |
-| continuous | Sliding Window |
-| sorted search | Binary Search |
-| brackets | Stack |
-| top k | Heap |
-| shortest path | BFS |
-| all combinations | Backtracking |
-| optimal | DP |
-| connections | Graph |
-| prefix | Trie |
-
----
-
 # UNIVERSAL INTERVIEW THINKING
 
 ```text
@@ -788,11 +429,7 @@ class TrieNode{
 
 ---
 
-# MOST IMPORTANT INTERVIEW SKILL
-
-Strong programmers do NOT memorize.
-
-They recognize:
+# MOST IMPORTANT RULE
 
 ```text
 Pattern
