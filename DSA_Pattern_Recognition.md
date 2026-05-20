@@ -1,124 +1,153 @@
-# DSA Pattern Recognition — Covers ~90% Interview Problems
-
-Most coding interviews are NOT random.
-
-Around 90% of problems come from these patterns:
-
-| Pattern | Main DS/Algo |
-|---|---|
-| Frequency Counting | HashMap |
-| Fast Lookup | HashSet |
-| Two Pointer | Two Indexes |
-| Sliding Window | Window Expansion |
-| Binary Search | Divide Search Space |
-| Stack | LIFO |
-| Heap / Top K | PriorityQueue |
-| BFS | Queue |
-| DFS / Backtracking | Recursion |
-| Dynamic Programming | Memoization |
-| Greedy | Local Best Choice |
-| Graph | BFS/DFS |
-| Trie | Prefix Tree |
+# DSA Pattern Recognition Master Document
+## Covers ~90% Coding Interview Problems
 
 ---
 
 # 1. Frequency Counting Pattern
 
-## Keywords
-- frequency
-- count
-- duplicate
-- anagram
+| Topic | Details |
+|---|---|
+| Main DS | HashMap |
+| Used For | Counting frequency |
+| Keywords | count, frequency, duplicate, anagram |
 
-## Use
-`HashMap`
+---
 
-## Example
+## Example Question
 
+### Top K Frequent Elements
+
+Given:
 ```java
-nums = [1,1,2,3,3,3]
+nums = [1,1,1,2,2,3]
+k = 2
+```
+
+Return top 2 frequent elements.
+
+---
+
+## Thinking
+
+```text
+Need count of each number
+→ HashMap
 ```
 
 Count:
 
 ```text
-1 -> 2
-2 -> 1
-3 -> 3
+1 -> 3
+2 -> 2
+3 -> 1
 ```
 
-## Thinking
+Top 2:
 
 ```text
-Need value → count mapping
-→ HashMap
+[1,2]
 ```
 
-## Common Problems
-- Top K Frequent
-- Group Anagrams
-- Majority Element
+---
+
+## Answer
+
+```java
+Map<Integer,Integer> map = new HashMap<>();
+
+for(int num : nums){
+    map.put(num, map.getOrDefault(num,0)+1);
+}
+```
 
 ---
 
 # 2. Fast Lookup Pattern
 
-## Keywords
-- contains
-- seen before
-- duplicate detection
+| Topic | Details |
+|---|---|
+| Main DS | HashSet |
+| Used For | Fast contains check |
+| Keywords | duplicate, seen before |
 
-## Use
-`HashSet`
+---
 
-## Example
+## Example Question
+
+### Contains Duplicate
 
 ```java
-[1,2,3,1]
+nums = [1,2,3,1]
+```
+
+Return true if duplicate exists.
+
+---
+
+## Thinking
+
+```text
+Need fast lookup
+→ HashSet
 ```
 
 Process:
 
 ```text
-1 seen
-2 seen
-3 seen
+1 added
+2 added
+3 added
 1 already exists
 ```
 
-Duplicate found.
-
-## Thinking
-
+Answer:
 ```text
-Need O(1) lookup
-→ HashSet
+true
 ```
 
-## Common Problems
-- Contains Duplicate
-- Happy Number
+---
+
+## Answer
+
+```java
+Set<Integer> set = new HashSet<>();
+
+for(int num : nums){
+
+    if(set.contains(num)){
+        return true;
+    }
+
+    set.add(num);
+}
+
+return false;
+```
 
 ---
 
 # 3. Two Pointer Pattern
 
-## Keywords
-- sorted array
-- pair sum
-- reverse
-- palindrome
+| Topic | Details |
+|---|---|
+| Main DS | Two Pointers |
+| Used For | Sorted arrays |
+| Keywords | pair sum, palindrome |
 
-## Use
-`left++, right--`
+---
 
-## Example
+## Example Question
 
-Find pair sum = 10
+### Two Sum II
 
 ```java
-[1,2,3,4,6]
+numbers = [1,2,3,4,6]
+target = 10
 ```
+
+---
+
+## Thinking
 
 ```text
 1 + 6 = 7
@@ -131,38 +160,58 @@ move left
 found
 ```
 
-## Thinking
-
+Answer:
 ```text
-Sorted data
-→ eliminate possibilities
+[4,6]
 ```
 
-## Common Problems
-- Two Sum II
-- Valid Palindrome
+---
+
+## Answer
+
+```java
+int left = 0;
+int right = numbers.length - 1;
+
+while(left < right){
+
+    int sum = numbers[left] + numbers[right];
+
+    if(sum == target){
+        return new int[]{left,right};
+    }
+
+    if(sum < target){
+        left++;
+    }else{
+        right--;
+    }
+}
+```
 
 ---
 
 # 4. Sliding Window Pattern
 
-## Keywords
-- substring
-- subarray
-- longest
-- shortest
-- continuous
+| Topic | Details |
+|---|---|
+| Main DS | Sliding Window |
+| Used For | Continuous range |
+| Keywords | substring, subarray |
 
-## Use
-`expand + shrink window`
+---
 
-## Example
+## Example Question
 
-Longest substring without repeating chars.
+### Longest Substring Without Repeating Characters
 
 ```java
 "abcabcbb"
 ```
+
+---
+
+## Thinking
 
 Window:
 
@@ -173,154 +222,242 @@ remove a
 bca ✓
 ```
 
-## Thinking
-
+Longest:
 ```text
-Continuous range optimization
-→ Sliding Window
+3
 ```
 
-## Common Problems
-- Max Sum Subarray
-- Longest Unique Substring
+---
+
+## Answer
+
+```java
+Set<Character> set = new HashSet<>();
+
+int left = 0;
+int max = 0;
+
+for(int right = 0; right < s.length(); right++){
+
+    while(set.contains(s.charAt(right))){
+        set.remove(s.charAt(left));
+        left++;
+    }
+
+    set.add(s.charAt(right));
+
+    max = Math.max(max, right-left+1);
+}
+```
 
 ---
 
 # 5. Binary Search Pattern
 
-## Keywords
-- sorted
-- search efficiently
-- minimum possible
-- monotonic
+| Topic | Details |
+|---|---|
+| Main DS | Binary Search |
+| Used For | Sorted arrays |
+| Keywords | search, sorted |
 
-## Use
-`mid = (l+r)/2`
+---
 
-## Example
+## Example Question
 
-Search 7
+### Search Insert Position
 
 ```java
-[1,3,5,7,9]
+nums = [1,3,5,7,9]
+target = 7
 ```
 
+---
+
+## Thinking
+
 ```text
-mid=5
+mid = 5
 7 > 5
 
 search right
 ```
 
-## Thinking
-
+Found:
 ```text
-Can discard half?
-→ Binary Search
+index = 3
 ```
 
-## Common Problems
-- Search Insert Position
-- Rotated Sorted Array
+---
+
+## Answer
+
+```java
+int left = 0;
+int right = nums.length - 1;
+
+while(left <= right){
+
+    int mid = (left + right)/2;
+
+    if(nums[mid] == target){
+        return mid;
+    }
+
+    if(nums[mid] < target){
+        left = mid + 1;
+    }else{
+        right = mid - 1;
+    }
+}
+```
 
 ---
 
 # 6. Stack Pattern
 
-## Keywords
-- next greater
-- brackets
-- undo
-- expression
-
-## Use
-`Stack`
-
-## Example
-
-```java
-"(())"
-```
-
-Process:
-
-```text
-( push
-( push
-) pop
-) pop
-```
-
-Valid.
-
-## Thinking
-
-```text
-Need latest item first
-→ Stack
-```
-
-## Common Problems
-- Valid Parentheses
-- Daily Temperatures
+| Topic | Details |
+|---|---|
+| Main DS | Stack |
+| Used For | Latest item first |
+| Keywords | brackets, next greater |
 
 ---
 
-# 7. Heap / Top K Pattern
+## Example Question
 
-## Keywords
-- top k
-- kth largest
-- most frequent
-
-## Use
-`PriorityQueue`
-
-## Example
-
-Top 2 largest:
+### Valid Parentheses
 
 ```java
-[1,5,2,9,7]
+"(()())"
 ```
 
-Keep heap size 2:
-
-```text
-[5,9]
-```
+---
 
 ## Thinking
 
 ```text
-Need only best K
-→ Heap
+( push
+( push
+) pop
+( push
+) pop
+) pop
 ```
 
-## Common Problems
-- Top K Frequent
-- Kth Largest Element
+Valid:
+```text
+true
+```
+
+---
+
+## Answer
+
+```java
+Stack<Character> stack = new Stack<>();
+
+for(char ch : s.toCharArray()){
+
+    if(ch == '('){
+        stack.push(ch);
+    }else{
+
+        if(stack.isEmpty()){
+            return false;
+        }
+
+        stack.pop();
+    }
+}
+
+return stack.isEmpty();
+```
+
+---
+
+# 7. Heap / PriorityQueue Pattern
+
+| Topic | Details |
+|---|---|
+| Main DS | PriorityQueue |
+| Used For | Top K |
+| Keywords | kth largest, top k |
+
+---
+
+## Example Question
+
+### Kth Largest Element
+
+```java
+nums = [3,2,1,5,6,4]
+k = 2
+```
+
+---
+
+## Thinking
+
+Keep only 2 largest.
+
+Heap:
+
+```text
+[5,6]
+```
+
+Answer:
+```text
+5
+```
+
+---
+
+## Answer
+
+```java
+PriorityQueue<Integer> heap = new PriorityQueue<>();
+
+for(int num : nums){
+
+    heap.add(num);
+
+    if(heap.size() > k){
+        heap.poll();
+    }
+}
+
+return heap.peek();
+```
 
 ---
 
 # 8. BFS Pattern
 
-## Keywords
-- shortest path
-- minimum steps
-- level order
+| Topic | Details |
+|---|---|
+| Main DS | Queue |
+| Used For | Level order |
+| Keywords | shortest path |
 
-## Use
-`Queue`
+---
 
-## Example
+## Example Question
 
-Tree traversal:
+### Binary Tree Level Order Traversal
 
 ```text
     1
    / \
   2   3
+```
+
+---
+
+## Thinking
+
+```text
+Visit level by level
 ```
 
 Output:
@@ -330,38 +467,54 @@ Output:
 2 3
 ```
 
-## Thinking
+---
 
-```text
-Visit level by level
-→ BFS
+## Answer
+
+```java
+Queue<TreeNode> queue = new LinkedList<>();
+
+queue.offer(root);
+
+while(!queue.isEmpty()){
+
+    TreeNode node = queue.poll();
+
+    System.out.println(node.val);
+
+    if(node.left != null){
+        queue.offer(node.left);
+    }
+
+    if(node.right != null){
+        queue.offer(node.right);
+    }
+}
 ```
-
-## Common Problems
-- Binary Tree Level Order
-- Rotting Oranges
 
 ---
 
 # 9. DFS / Backtracking Pattern
 
-## Keywords
-- all combinations
-- all paths
-- permutations
+| Topic | Details |
+|---|---|
+| Main DS | Recursion |
+| Used For | All combinations |
+| Keywords | subsets, permutations |
 
-## Use
-`Recursion`
+---
 
-## Example
+## Example Question
 
-Subsets of:
+### Generate Subsets
 
 ```java
-[1,2]
+nums = [1,2]
 ```
 
-Result:
+---
+
+## Thinking
 
 ```text
 []
@@ -370,132 +523,203 @@ Result:
 [1,2]
 ```
 
-## Thinking
+Try all possibilities.
 
-```text
-Try every possibility
-→ Backtracking
+---
+
+## Answer
+
+```java
+void backtrack(List<Integer> temp, int start){
+
+    result.add(new ArrayList<>(temp));
+
+    for(int i = start; i < nums.length; i++){
+
+        temp.add(nums[i]);
+
+        backtrack(temp, i+1);
+
+        temp.remove(temp.size()-1);
+    }
+}
 ```
-
-## Common Problems
-- Subsets
-- Permutations
 
 ---
 
 # 10. Dynamic Programming Pattern
 
-## Keywords
-- optimal
-- maximum/minimum
-- repeated work
+| Topic | Details |
+|---|---|
+| Main DS | DP Array |
+| Used For | Optimization |
+| Keywords | maximum, minimum |
 
-## Use
-`Store previous answers`
+---
 
-## Example
+## Example Question
 
-Fibonacci:
+### Climbing Stairs
 
 ```text
-f(5)=f(4)+f(3)
+n = 5
 ```
 
-Avoid recalculating.
+---
 
 ## Thinking
 
 ```text
-Repeated subproblems
-→ DP
+f(n)=f(n-1)+f(n-2)
 ```
 
-## Common Problems
-- Climbing Stairs
-- House Robber
+Reuse previous answers.
+
+Answer:
+```text
+8
+```
+
+---
+
+## Answer
+
+```java
+int[] dp = new int[n+1];
+
+dp[1] = 1;
+dp[2] = 2;
+
+for(int i=3; i<=n; i++){
+    dp[i] = dp[i-1] + dp[i-2];
+}
+
+return dp[n];
+```
 
 ---
 
 # 11. Greedy Pattern
 
-## Keywords
-- best immediate choice
-- minimum intervals
-- maximize
+| Topic | Details |
+|---|---|
+| Main DS | Greedy |
+| Used For | Best immediate choice |
+| Keywords | minimum jumps |
 
-## Use
-`Choose local best`
+---
 
-## Example
+## Example Question
 
-Coins:
+### Jump Game
 
-```text
-41
+```java
+[2,3,1,1,4]
 ```
 
-Take biggest first:
-
-```text
-25 + 10 + 5 + 1
-```
+---
 
 ## Thinking
 
 ```text
-Local optimum works
-→ Greedy
+Keep farthest reachable index
 ```
 
-## Common Problems
-- Jump Game
-- Merge Intervals
+Answer:
+```text
+true
+```
+
+---
+
+## Answer
+
+```java
+int reach = 0;
+
+for(int i=0; i<nums.length; i++){
+
+    if(i > reach){
+        return false;
+    }
+
+    reach = Math.max(reach, i + nums[i]);
+}
+
+return true;
+```
 
 ---
 
 # 12. Graph Pattern
 
-## Keywords
-- connections
-- routes
-- dependencies
+| Topic | Details |
+|---|---|
+| Main DS | Graph |
+| Used For | Connections |
+| Keywords | routes, dependencies |
 
-## Use
-`Adjacency List`
+---
 
-## Example
+## Example Question
+
+### Number of Islands
+
+Grid:
 
 ```text
-A → B
-A → C
+1 1 0
+0 1 0
+1 0 1
 ```
 
-Traverse with BFS/DFS.
+---
 
 ## Thinking
 
 ```text
-Node relationships
-→ Graph
+Connected land
+→ DFS/BFS
 ```
 
-## Common Problems
-- Number of Islands
-- Course Schedule
+Answer:
+```text
+3 islands
+```
+
+---
+
+## Answer
+
+```java
+void dfs(int r, int c){
+
+    if(r<0 || c<0 || r>=rows || c>=cols || grid[r][c]=='0'){
+        return;
+    }
+
+    grid[r][c] = '0';
+
+    dfs(r+1,c);
+    dfs(r-1,c);
+    dfs(r,c+1);
+    dfs(r,c-1);
+}
+```
 
 ---
 
 # 13. Trie Pattern
 
-## Keywords
-- prefix
-- autocomplete
-- dictionary
+| Topic | Details |
+|---|---|
+| Main DS | Trie |
+| Used For | Prefix search |
+| Keywords | autocomplete |
 
-## Use
-`Trie`
+---
 
-## Example
+## Example Question
 
 Words:
 
@@ -505,97 +729,74 @@ app
 ape
 ```
 
-Shared prefix:
-
+Search:
 ```text
 ap
 ```
 
+---
+
 ## Thinking
 
 ```text
-Character-by-character search
-→ Trie
+Character by character traversal
 ```
 
 ---
 
-# MASTER THINKING FLOW
+## Answer
 
-## Step 1
+```java
+class TrieNode{
 
-Ask:
+    TrieNode[] children = new TrieNode[26];
 
-```text
-What operation is repeated?
+    boolean isWord;
+}
 ```
 
 ---
 
-## Step 2
-
-Match keyword
+# MASTER PATTERN RECOGNITION TABLE
 
 | Keyword | Pattern |
 |---|---|
 | frequency | HashMap |
-| top k | Heap |
+| duplicate | HashSet |
+| pair sum sorted | Two Pointer |
 | continuous | Sliding Window |
-| sorted | Binary Search |
-| pair | Two Pointer |
+| sorted search | Binary Search |
+| brackets | Stack |
+| top k | Heap |
 | shortest path | BFS |
 | all combinations | Backtracking |
 | optimal | DP |
+| connections | Graph |
+| prefix | Trie |
 
 ---
 
-# UNIVERSAL INTERVIEW FORMULA
+# UNIVERSAL INTERVIEW THINKING
 
 ```text
-1. Brute Force
-2. Find bottleneck
-3. Choose DS/Algo
-4. Optimize
+1. Understand problem
+2. Think brute force
+3. Find bottleneck
+4. Choose better DS/Algo
+5. Optimize
 ```
 
 ---
 
-# FAST MEMORY TRICK
+# MOST IMPORTANT INTERVIEW SKILL
 
-## Arrays
-Think:
-`Two Pointer / Sliding Window`
-
-## Strings
-Think:
-`HashMap / Sliding Window`
-
-## Trees
-Think:
-`DFS / BFS`
-
-## Graphs
-Think:
-`BFS / DFS`
-
-## Top K
-Think:
-`Heap`
-
-## Optimization
-Think:
-`DP`
-
----
-
-# THE MOST IMPORTANT THING
-
-Strong programmers don’t memorize problems.
+Strong programmers do NOT memorize.
 
 They recognize:
 
 ```text
-Pattern → Data Structure → Solution
+Pattern
+→ Data Structure
+→ Algorithm
+→ Solution
 ```
-
-That is the real interview skill.
