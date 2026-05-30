@@ -178,20 +178,34 @@ Insert current element into sorted portion.
 ### Java Code
 
 ```java id="okh2z4"
-public static void insertionSort(int[] arr){
+class Main {
+    public static void main(String[] args) {
 
-    for(int i=1;i<arr.length;i++){
+        int[] nums = {6, 8, 1, 6, 3, 9, 0};
 
-        int key = arr[i];
-        int j = i-1;
+        // Traverse array from second element
+        for (int i = 1; i < nums.length; i++) {
 
-        while(j>=0 && arr[j] > key){
+            // Store current element
+            int key = nums[i];
 
-            arr[j+1] = arr[j];
-            j--;
+            // Start from previous element
+            int j = i - 1;
+
+            // Shift larger elements to the right
+            while (j >= 0 && nums[j] > key) {
+                nums[j + 1] = nums[j];
+                j--;
+            }
+
+            // Insert key at correct position
+            nums[j + 1] = key;
         }
 
-        arr[j+1] = key;
+        // Print sorted array
+        for (int num : nums) {
+            System.out.print(num + " ");
+        }
     }
 }
 ```
