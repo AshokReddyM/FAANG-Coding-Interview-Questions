@@ -1,350 +1,412 @@
-# DSA Sorting Algorithms Cheat Sheet
-
-## What is Sorting?
-
-Sorting is the process of arranging data in a specific order (Ascending or Descending).
-
-Example:
-
-```text
-Unsorted: 5 2 8 1 4
-Sorted:   1 2 4 5 8
-```
+# DSA Sorting Algorithms with Code Examples
 
 ---
 
-# Sorting Algorithms Overview
+# Interview Importance
 
-| Algorithm      | Definition                         | Time Complexity | Space    | Stable  | Interview Importance |
-| -------------- | ---------------------------------- | --------------- | -------- | ------- | -------------------- |
-| Bubble Sort    | Swap adjacent elements repeatedly  | O(n²)           | O(1)     | Yes     | ⭐                    |
-| Selection Sort | Select minimum and place correctly | O(n²)           | O(1)     | No      | ⭐                    |
-| Insertion Sort | Insert element into sorted portion | O(n²)           | O(1)     | Yes     | ⭐⭐                   |
-| Merge Sort     | Divide, Sort, Merge                | O(n log n)      | O(n)     | Yes     | ⭐⭐⭐                  |
-| Quick Sort     | Pivot-based partitioning           | O(n log n) Avg  | O(log n) | No      | ⭐⭐⭐                  |
-| Heap Sort      | Use Heap data structure            | O(n log n)      | O(1)     | No      | ⭐⭐⭐                  |
-| Counting Sort  | Count occurrences                  | O(n+k)          | O(k)     | Yes     | ⭐⭐                   |
-| Radix Sort     | Sort digit by digit                | O(nk)           | O(n+k)   | Yes     | ⭐⭐                   |
-| Bucket Sort    | Distribute into buckets            | O(n+k) Avg      | O(n)     | Depends | ⭐                    |
+| Algorithm      | Importance |
+| -------------- | ---------- |
+| Quick Sort     | ⭐⭐⭐        |
+| Merge Sort     | ⭐⭐⭐        |
+| Heap Sort      | ⭐⭐⭐        |
+| Insertion Sort | ⭐⭐         |
+| Counting Sort  | ⭐⭐         |
+| Bubble Sort    | ⭐          |
+| Selection Sort | ⭐          |
 
 ---
 
-# 1. Bubble Sort
+# Must Remember
 
-## Definition
-
-Repeatedly compare adjacent elements and swap if they are in the wrong order.
-
-## Example
-
-```text
-5 3 4
-
-5 > 3 → Swap
-3 5 4
-
-5 > 4 → Swap
-3 4 5
+```text id="k9svyb"
+Bubble     → Swap Adjacent
+Selection  → Select Minimum
+Insertion  → Insert in Order
+Merge      → Divide and Merge
+Quick      → Pivot Partition
+Heap       → Heap Structure
+Counting   → Count Frequency
 ```
 
-## Complexity
+## 1. Bubble Sort
 
-```text
-Best    : O(n)
-Average : O(n²)
-Worst   : O(n²)
-Space   : O(1)
+### Idea
+
+Compare adjacent elements and swap if needed.
+
+### Example
+
+```text id="w9nw9c"
+Input : [5,3,8,4,2]
+
+Pass 1:
+5 3 8 4 2
+↓
+3 5 8 4 2
+↓
+3 5 4 8 2
+↓
+3 5 4 2 8
+
+Final:
+2 3 4 5 8
+```
+
+### Java Code
+
+```java id="4lkj5p"
+public static void bubbleSort(int[] arr){
+
+    int n = arr.length;
+
+    for(int i=0;i<n-1;i++){
+
+        for(int j=0;j<n-i-1;j++){
+
+            if(arr[j] > arr[j+1]){
+
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
+}
+```
+
+### Complexity
+
+```text id="qnn9nh"
+Time  : O(n²)
+Space : O(1)
 ```
 
 ---
 
 # 2. Selection Sort
 
-## Definition
+### Idea
 
-Find the minimum element and place it at its correct position.
+Find minimum element and place at correct position.
 
-## Example
+### Example
 
-```text
-5 3 4 1
+```text id="x3e8nk"
+Input
 
-Minimum = 1
+5 3 8 4 2
 
-1 3 4 5
+Minimum = 2
+
+2 3 8 4 5
+
+Minimum = 3
+
+2 3 8 4 5
+
+Minimum = 4
+
+2 3 4 8 5
+
+2 3 4 5 8
 ```
 
-## Complexity
+### Java Code
 
-```text
-Best    : O(n²)
-Average : O(n²)
-Worst   : O(n²)
-Space   : O(1)
+```java id="g5z7wi"
+public static void selectionSort(int[] arr){
+
+    int n = arr.length;
+
+    for(int i=0;i<n-1;i++){
+
+        int minIndex = i;
+
+        for(int j=i+1;j<n;j++){
+
+            if(arr[j] < arr[minIndex]){
+                minIndex = j;
+            }
+        }
+
+        int temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
+}
+```
+
+### Complexity
+
+```text id="xlp2eg"
+Time  : O(n²)
+Space : O(1)
 ```
 
 ---
 
 # 3. Insertion Sort
 
-## Definition
+### Idea
 
-Insert each element into the correct position of the already sorted part.
+Insert current element into sorted portion.
 
-## Example
+### Example
 
-```text
+```text id="khp4pw"
+5 3 8 4 2
+
 5
 
 3 5
 
-3 4 5
+3 5 8
+
+3 4 5 8
+
+2 3 4 5 8
 ```
 
-## Complexity
+### Java Code
 
-```text
-Best    : O(n)
-Average : O(n²)
+```java id="okh2z4"
+public static void insertionSort(int[] arr){
+
+    for(int i=1;i<arr.length;i++){
+
+        int key = arr[i];
+        int j = i-1;
+
+        while(j>=0 && arr[j] > key){
+
+            arr[j+1] = arr[j];
+            j--;
+        }
+
+        arr[j+1] = key;
+    }
+}
+```
+
+### Complexity
+
+```text id="5p5duf"
+Best  : O(n)
+Worst : O(n²)
+```
+
+---
+
+# 4. Merge Sort ⭐
+
+### Idea
+
+Divide → Sort → Merge
+
+### Example
+
+```text id="7d3x9q"
+5 3 8 4 2
+
+5 3 | 8 4 2
+
+5 | 3
+
+8 | 4 2
+
+4 | 2
+
+Merge
+
+3 5
+
+2 4
+
+2 4 8
+
+2 3 4 5 8
+```
+
+### Java Code
+
+```java id="ytuxgx"
+public static void mergeSort(int[] arr, int left, int right){
+
+    if(left >= right){
+        return;
+    }
+
+    int mid = (left + right) / 2;
+
+    mergeSort(arr,left,mid);
+    mergeSort(arr,mid+1,right);
+
+    merge(arr,left,mid,right);
+}
+```
+
+### Complexity
+
+```text id="lzg1gw"
+Time  : O(n log n)
+Space : O(n)
+```
+
+---
+
+# 5. Quick Sort ⭐⭐⭐
+
+### Idea
+
+Choose Pivot → Partition
+
+### Example
+
+```text id="8u9l6h"
+5 3 8 4 2
+
+Pivot = 5
+
+3 4 2 | 5 | 8
+
+Pivot = 3
+
+2 | 3 | 4
+
+Final
+
+2 3 4 5 8
+```
+
+### Java Code
+
+```java id="5otd0s"
+public static void quickSort(int[] arr,int low,int high){
+
+    if(low < high){
+
+        int pivot = partition(arr,low,high);
+
+        quickSort(arr,low,pivot-1);
+
+        quickSort(arr,pivot+1,high);
+    }
+}
+```
+
+### Complexity
+
+```text id="vxzn4g"
+Average : O(n log n)
 Worst   : O(n²)
-Space   : O(1)
 ```
 
 ---
 
-# 4. Merge Sort
+# 6. Heap Sort ⭐⭐
 
-## Definition
+### Idea
 
-Divide the array into halves, sort them recursively, then merge.
+Build Max Heap → Remove Root
 
-## Example
+### Example
 
-```text
-8 4 2 6
+```text id="w8mg67"
+Input
 
-8 4 | 2 6
+5 3 8 4 2
 
-8 | 4
-2 | 6
+Max Heap
 
-4 8
-2 6
+      8
+    /   \
+   4     5
+  / \
+ 3   2
 
-2 4 6 8
+Output
+
+2 3 4 5 8
 ```
 
-## Complexity
+### Java Code
 
-```text
-Best    : O(n log n)
-Average : O(n log n)
-Worst   : O(n log n)
-Space   : O(n)
+```java id="xq9d2e"
+public static void heapSort(int[] arr){
+
+    PriorityQueue<Integer> pq =
+            new PriorityQueue<>();
+
+    for(int num : arr){
+        pq.add(num);
+    }
+
+    int i = 0;
+
+    while(!pq.isEmpty()){
+
+        arr[i++] = pq.poll();
+    }
+}
 ```
 
-## Advantages
+### Complexity
 
-* Stable
-* Guaranteed O(n log n)
-
----
-
-# 5. Quick Sort
-
-## Definition
-
-Choose a pivot and partition elements around it.
-
-## Example
-
-```text
-4 7 2 9 1
-
-Pivot = 4
-
-2 1 | 4 | 7 9
+```text id="r16z9q"
+Time  : O(n log n)
+Space : O(1)
 ```
-
-## Complexity
-
-```text
-Best    : O(n log n)
-Average : O(n log n)
-Worst   : O(n²)
-Space   : O(log n)
-```
-
-## Advantages
-
-* Fastest in practice
-* Most asked in interviews
-
----
-
-# 6. Heap Sort
-
-## Definition
-
-Build a heap and repeatedly remove the root element.
-
-## Example
-
-```text
-8
-/ \
-5 3
-/
-1
-```
-
-## Complexity
-
-```text
-Best    : O(n log n)
-Average : O(n log n)
-Worst   : O(n log n)
-Space   : O(1)
-```
-
-## Advantages
-
-* In-place
-* Useful for Top-K problems
 
 ---
 
 # 7. Counting Sort
 
-## Definition
+### Idea
 
-Count frequency of each number.
+Count frequency.
 
-## Example
+### Example
 
-```text
+```text id="6xrrza"
 1 4 2 1 3
 
-Count:
+Count
 
 1 → 2
 2 → 1
 3 → 1
 4 → 1
+
+Result
+
+1 1 2 3 4
 ```
 
-## Complexity
+### Java Code
 
-```text
+```java id="4hnd0z"
+int[] count = new int[10];
+
+for(int num : arr){
+
+    count[num]++;
+}
+
+for(int i=0;i<count.length;i++){
+
+    while(count[i] > 0){
+
+        System.out.print(i + " ");
+
+        count[i]--;
+    }
+}
+```
+
+### Complexity
+
+```text id="u8uy1n"
 O(n + k)
 ```
 
-where k = range of numbers.
 
----
-
-# 8. Radix Sort
-
-## Definition
-
-Sort numbers digit by digit.
-
-## Example
-
-```text
-170
-45
-75
-90
-
-Sort by:
-1's digit
-10's digit
-100's digit
-```
-
-## Complexity
-
-```text
-O(nk)
-```
-
----
-
-# 9. Bucket Sort
-
-## Definition
-
-Distribute elements into buckets and sort each bucket.
-
-## Example
-
-```text
-0.12
-0.44
-0.87
-0.23
-
-Bucket 1
-Bucket 2
-Bucket 3
-```
-
-## Complexity
-
-```text
-Average: O(n+k)
-Worst  : O(n²)
-```
-
----
-
-# Quick Recognition Table
-
-| Requirement           | Best Algorithm |
-| --------------------- | -------------- |
-| General Purpose       | Quick Sort     |
-| Guaranteed O(n log n) | Merge Sort     |
-| Stable Sorting        | Merge Sort     |
-| Top K Elements        | Heap Sort      |
-| Nearly Sorted Data    | Insertion Sort |
-| Small Integer Range   | Counting Sort  |
-| Large Integer Digits  | Radix Sort     |
-
----
-
-# Interview Priority
-
-## Must Know
-
-1. Merge Sort
-2. Quick Sort
-3. Heap Sort
-
-## Good To Know
-
-4. Insertion Sort
-5. Counting Sort
-6. Radix Sort
-
-## Basic Knowledge
-
-7. Bubble Sort
-8. Selection Sort
-9. Bucket Sort
-
----
-
-# Memory Trick
-
-```text
-Bubble     → Swap Neighbors
-Selection  → Select Minimum
-Insertion  → Insert Correct Position
-Merge      → Divide and Merge
-Quick      → Pivot Partition
-Heap       → Heap Structure
-Counting   → Count Frequencies
-Radix      → Digit by Digit
-Bucket     → Group into Buckets
-```
