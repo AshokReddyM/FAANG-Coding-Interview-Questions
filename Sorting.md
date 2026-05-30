@@ -89,6 +89,13 @@ Space : O(1)
 
 Find minimum element and place at correct position.
 
+hint
+if(nums[i] > nums[j]) {
+    minIndex = j;
+}
+
+You should compare with the current minimum element, not always with nums[i].
+
 ### Example
 
 ```text id="x3e8nk"
